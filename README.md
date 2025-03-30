@@ -12,7 +12,7 @@ This is frontend user interface for the Point of Sale (POS) system, built with H
 # Installation:
 
   1. Clone the repository:
-     git clone https://github.com/github_username/repo_name.git
+     git clone https://github.com/ThuyPhamict/POS_UI.git
   2. Install NPM packages:
      npm install
   3. Enter your API in config.js:
