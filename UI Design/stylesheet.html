@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Embedded stylesheet</title>
+    
+    <!-- Embedded stylesheet -->
+    <style>
+        
+        body{
+            background-color: rgb(246, 247, 247);
+            color: black;
+        }
+
+        menubar {
+            background-color: palegreen;
+            color: black;
+            font-variant: normal;
+            text-align: center;
+        }
+        ordercart{
+            background-color: white;
+            color: black;
+            font-variant: normal;
+            text-align: left;
+
+        }
+        ordercart.h2{
+            font-weight: bold ;
+            text-align: center;
+        }
+
+        button{
+            background-color: blue;
+            color: black;
+            font-variant: normal;
+            text-align: center;
+        }
+        #orderDone{
+            color: rgb(15, 2, 46);
+            text-align: center;
+            font-size: 20px;
+        }
+
+        #orderAvoided{
+            color: rgb(140, 4, 4);
+            text-align: center;
+            font-size: 20px;
+        }
+
+        h2 h4{
+            font-weight: bold ;
+        }
+        
+        input{
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .cartOrder{
+            background-color: #f2f2f2;
+            padding: 5px 20px 15px 20px;
+            border: 1px solid lightgrey;
+            border-radius: 3px;
+        }
+       
+    </style>
+</head>
+
+<body>
+    <menubar></menubar>
+    <ordercart>
+        <h2></h2>
+        <h3 id="orderDone"></h3>
+        <h3 id="orderAvoided"></h3>
+    </ordercart>
+    <button></button>
+    <h2></h2>
+    <input>
+    <div class="cartOrder"></div>
+    <h4></h4>
+    
+</body>
+
+</html>
