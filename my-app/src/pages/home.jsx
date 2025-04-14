@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './styles/homepage.css'; 
-import './images/logo'
+import Logo from './images/logo.jpg';
 
 const HomePage = () => {
   const [orderData, setOrderData] = useState({
@@ -12,7 +12,7 @@ const HomePage = () => {
     service: '' // Empty service field
   });
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // Function to fetch order data from the backend
   const fetchOrderData = async () => {
@@ -44,27 +44,32 @@ const HomePage = () => {
       ...prevData,
       orderId: prevData.orderId + 1 // Increment the order ID by 1
     }));
-    useHistory('/customer_signIn_phone');
+    navigate('/enter-customer-phone');
   };
+
+  // const orderHistoryMenu = () =>{
+  //   navigate('/order-history"');
+  // }
+  // const voidedOrderMenu = () =>{
+  //   navigate('/voided-order');
+  // }
 
   return(
     <div className="homepage">
    
-      <header className="homepage-header">
         <div className="logo">
         <img 
-            src= {logo}
+            src= {Logo}
             alt="Avatar"
             />
         </div>
-      </header>
 
      
       <nav className="menu">
         <ul className="menu-list">
           <li><a href="/home">Home</a></li>
-          <li><a href="/orderHistory">Order History</a></li>
-          <li><a href="/voidedOrder">Voided Order</a></li>
+          <li><a href="/order-history">Order History</a></li>
+          <li><a href="/voided-order">Voided Order</a></li>
         </ul>
       </nav>
 

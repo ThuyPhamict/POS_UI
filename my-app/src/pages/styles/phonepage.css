@@ -5,9 +5,21 @@
   }
   
   .number-button {
-    padding: 20px;
-    font-size: 20px;
+    padding: 10px;
+    font-size: 50px;
     cursor: pointer;
+    width: 100%;
+  }
+
+  .textphone{
+    text-align: left;
+    width: 200px;
+    border-radius: solid black 2px;
+    font-size: 20px;
+  }
+  displayedPhone{
+    border-radius: solid black 2px;
+    font-size: 20px;
   }
   
   .skip-button, .ok-button {

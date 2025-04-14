@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import './styles/namepage.css';
 
 const EnterCustomerNamePage = () => {
   const [name, setName] = useState("");
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const phone = location.state?.phone;
 
   const handleNameChange = (e) => {
@@ -17,11 +18,11 @@ const EnterCustomerNamePage = () => {
     console.log("Customer Info Saved:", customerInfo);
 
     // Redirect to the Order View page
-    history.push("/order-view", customerInfo);
+    navigate("/order-view", customerInfo);
   };
 
   return (
-    <div>
+    <div className="namepage">
       <h2>Enter Customer Name</h2>
       <input
         type="text"

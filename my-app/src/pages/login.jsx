@@ -1,19 +1,20 @@
 import React, {useState} from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import logo from './images/logo.jpg';
-
+import './styles/loginpage.css';
 
 
 function login() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] =useState("");
-    const history = useHistory();
+    const [username, setUsername] = useState("Admin");
+    const [password, setPassword] =useState("123");
+    const navigate = useNavigate();
 
     const handleSubmit = () =>{
        // For simplicity, assume any username and password is valid
     if (username && password) {
+        console.log("login successfully!!");
         // Redirect to the Home page after successful login
-        history.push("/home");
+        navigate("/home");
         } else {
             alert("Please enter both username and password");
         }
@@ -50,7 +51,7 @@ function login() {
                     required
                     />
                 
-                    <button type="submit" onClick={handleLogin}>Login</button>
+                    <button type="submit" onClick={handleSubmit}>Login</button>
                 </div>
             </form>
         </div>

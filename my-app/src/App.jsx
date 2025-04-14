@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react'
 import Login from './pages/login';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import NumberKeyboardPage from "./NumberKeyboardPage";
-import OrderViewPage from "./OrderViewPage";
-import EnterCustomerNamePage from "./EnterCustomerNamePage";
+import Home from './pages/home'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import OrderView from './pages/order_view';
+import EnterCustomerPhone from './pages/customer_signIn_phone'
+import EnterCustomerName from './pages/customer_signIn_name';
+import OrderHistory from './pages/orderhistory';
+import VoidedOrder from './pages/voidedOrder';
 import './App.css';
 
 function App() {
@@ -13,12 +14,15 @@ function App() {
   return (
       <div>
        <Router>
-        <Switch>
-          <Route exact path="/" component={LoginPage} />
-          <Route exact path="/" component={NumberKeyboardPage} />
-          <Route path="/order-view" component={OrderViewPage} />
-          <Route path="/enter-customer-name" component={EnterCustomerNamePage} />
-        </Switch>
+        <Routes>
+          <Route exact path="/" element={<Login/>} />
+          <Route path="/home" element={<Home/>} />
+          <Route path="/order-view" element={<OrderView/>} />
+          <Route path="/enter-customer-phone" element={<EnterCustomerPhone/>} />
+          <Route path="/enter-customer-name" element={<EnterCustomerName/>} />
+          <Route path="/order-history" element={<OrderHistory/>} />
+          <Route path="/voided-order" element={<VoidedOrder/>} />
+        </Routes>
       </Router>
       </div>
       

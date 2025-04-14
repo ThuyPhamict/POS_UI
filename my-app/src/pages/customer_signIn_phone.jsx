@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import './styles/phonepage.css';
 
 const NumberKeyboardPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isValid, setIsValid] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // Handle the number input on button click
   const handleNumberClick = (number) => {
@@ -24,14 +24,14 @@ const NumberKeyboardPage = () => {
     console.log("New Order Created:", newOrder);
 
     // Redirect to Order View page
-    history.push("/order-view");
+    navigate("/order-view");
   };
 
   // Handle Ok button click (only if 10 digits entered)
   const handleOk = () => {
     if (phoneNumber.length === 10) {
       // Redirect to the page to enter customer's name
-      history.push("/customer_signIn_name", { phone: phoneNumber });
+      navigate("/enter-customer-name", { phone: phoneNumber });
     }
   };
 
@@ -63,8 +63,8 @@ const NumberKeyboardPage = () => {
           </button>
         </div>
       </div>
-      <div>
-        <p>Phone Number: {phoneNumber}</p>
+      <div className="textphone">
+        <input value={phoneNumber} />
       </div>
       <div>
         <button onClick={handleSkip} className="skip-button">
