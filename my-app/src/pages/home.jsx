@@ -1,35 +1,40 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './styles/homepage.css'; 
-import Logo from './images/logo.jpg';
+import Logo from './images/logo.jpg'
 
 const HomePage = () => {
-  const [orderData, setOrderData] = useState({
-    orderId: 100, // Default Order ID
-    customerName: 'Unknown', // Default customer name
-    staff: '', // Empty staff field
-    service: '' // Empty service field
-  });
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
   // Function to fetch order data from the backend
   const fetchOrderData = async () => {
-    try {
-      const response = await axios.get('/api/order'); // Replace with your API endpoint
-      const data = response.data;
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert("Please log in first.");
+      return navigate('/');
+    }
 
-      // Update state with data, using defaults for missing fields
-      setOrderData({
-        orderId: data.orderId || 100, // Default to 100 if no orderId
-        customerName: data.customerName || 'Unknown', // Default to 'Unknown' if no customerName
-        staff: data.staff || '', // Empty if no staff
-        service: data.service || '' // Empty if no service
+
+    try {
+      const response = await axios.get('http://localhost:3000/api/orders',{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
-    } catch (error) {
-      console.error('Error fetching order data:', error);
-      // In case of an error, we retain the default values
+      console.log(response.data); 
+      setOrders(response.data);
+      
+    }catch (err) {
+      console.error('Failed to fetch orders:', err);
+      alert("Session expired or unauthorized. Please log in again.");
+      localStorage.removeItem('token');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,21 +43,21 @@ const HomePage = () => {
     fetchOrderData();
   }, []);
 
+  if (loading) {
+    return <p>Loading orders...</p>;
+  }
+  
+
   // Function to create a new order and increase the Order ID
   const createNewOrder = () => {
-    setOrderData((prevData) => ({
-      ...prevData,
-      orderId: prevData.orderId + 1 // Increment the order ID by 1
-    }));
+    // You can use the last order ID to generate a new one (or do it in the backend)
+    const lastOrderId = orders.length > 0 ? orders[orders.length - 1].id : 100;
+    const newOrderId = lastOrderId + 1;
+
+    localStorage.setItem('newOrderId', newOrderId);
     navigate('/enter-customer-phone');
   };
 
-  // const orderHistoryMenu = () =>{
-  //   navigate('/order-history"');
-  // }
-  // const voidedOrderMenu = () =>{
-  //   navigate('/voided-order');
-  // }
 
   return(
     <div className="homepage">
@@ -75,11 +80,20 @@ const HomePage = () => {
 
      
         <div className="order-details">
-          <p>Order ID: {orderData.orderId}</p>
-          <p>Customer: {orderData.customerName}</p>
-          <p>Staff: {orderData.staff || 'Not Assigned'}</p>
-          <p>Service: {orderData.service || 'No Service Selected'}</p>
-          <button className="view-cart-button">View Cart</button>
+            {orders.length === 0 ? (
+            <p>No active orders.</p>
+          ) : (
+            orders.map((order) => (
+              
+              <div key={order.id} className="order-box">
+                <p>Order ID: {order.id}</p>
+                <p>Customer: {order.customer_name}</p>
+                <p>Staff: {order.staff_name || 'Not Assigned'}</p>
+                <p>Service: {order.service || 'No Service Selected'}</p>
+                <button className="view-cart-button">View Cart</button>
+              </div>
+            ))
+          )}
         </div>
 
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './styles/phonepage.css';
 
 const NumberKeyboardPage = () => {
@@ -15,24 +16,70 @@ const NumberKeyboardPage = () => {
   };
 
   // Handle Skip button click
-  const handleSkip = () => {
-    const unknownName = "Unknown";
+  const handleSkip = async () => {
+    const unknownName = "unknown";
     const unknownPhone = "unknown";
 
-    // Simulate creating a new order with unknown name and phone
-    const newOrder = { name: unknownName, phone: unknownPhone };
-    console.log("New Order Created:", newOrder);
-
-    // Redirect to Order View page
-    navigate("/order-view");
+    try {
+      const res = await axios.post('http://localhost:3000/api/customerphonecheck/unknown-customers', {
+        name: unknownName,
+        phone: unknownPhone,
+        totalAmount: 0
+      });
+  
+      const { order } = res.data;
+  
+      // Redirect to Order View page
+      navigate("/order-view", {
+        state: {
+          order,
+          name: unknownName,
+          phone: unknownPhone
+        }
+      });
+    } catch (error) {
+      console.error("Error creating order for unknown customer:", error);
+      alert("Something went wrong while skipping.");
+    }
   };
 
   // Handle Ok button click (only if 10 digits entered)
-  const handleOk = () => {
+  const handleOk = async () => {
     if (phoneNumber.length === 10) {
-      // Redirect to the page to enter customer's name
-      navigate("/enter-customer-name", { phone: phoneNumber });
-    }
+          try{
+            const res = await axios.get(`http://localhost:3000/api/customerphonecheck`, {
+            params: { phone: phoneNumber }
+          });
+
+          const data = res.data;
+
+          if (data.found) {
+
+            // Create new order in DB
+        const orderRes = await axios.post(`http://localhost:3000/api/orders/neworder-oldcustomer`, {
+          phone: phoneNumber,      
+          totalAmount: 0           
+        });
+        const newOrder = orderRes.data;
+
+            navigate("/order-view", {
+              state: {
+                order: newOrder,
+                name: data.name,
+                phone: phoneNumber
+              }
+            });
+          } else {
+            console.log(phoneNumber);
+            navigate("/enter-customer-name", {
+              state: { phone: phoneNumber }
+            });
+          }
+        } catch (error) {
+          console.error("API error:", error);
+        }
+
+      }
   };
 
   // Update the validity of the Ok button based on phone number length
@@ -43,6 +90,10 @@ const NumberKeyboardPage = () => {
   React.useEffect(() => {
     checkPhoneValidity();
   }, [phoneNumber]);
+
+  const handleBackspace = () => {
+    setPhoneNumber((prev) => prev.slice(0, -1));
+  };
 
   return (
     <div>
@@ -64,7 +115,9 @@ const NumberKeyboardPage = () => {
         </div>
       </div>
       <div className="textphone">
-        <input value={phoneNumber} />
+        <input value={phoneNumber} readOnly />
+        <button onClick={handleBackspace}
+        className="back-space-button">Del</button>
       </div>
       <div>
         <button onClick={handleSkip} className="skip-button">
