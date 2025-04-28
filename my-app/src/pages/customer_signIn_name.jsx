@@ -28,7 +28,8 @@ const EnterCustomerNamePage = () => {
   const handleSave = async () => {
     try {
       console.log(data.phone);
-    const orderRes = await axios.post(`http://localhost:3000/api/newcustomers`, {
+    // const orderRes = await axios.post(`http://localhost:3000/api/newcustomers`, {
+      const orderRes = await axios.post(`https://pos-be-pham-5c635ce0026f.herokuapp.com/api/newcustomers`, {
           name,
           phone: data.phone,
           totalAmount: 0         

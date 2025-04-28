@@ -15,7 +15,8 @@ function Login() {
 
         
         try {
-          const response = await axios.post('http://localhost:3000/api/login', {
+        //   const response = await axios.post('http://localhost:3000/api/login', {
+          const response = await axios.post('https://pos-be-pham-5c635ce0026f.herokuapp.com/api/login', {
             username,
             password
           });

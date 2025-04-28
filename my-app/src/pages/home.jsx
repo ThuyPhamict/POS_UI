@@ -21,7 +21,8 @@ const HomePage = () => {
 
 
     try {
-      const response = await axios.get('http://localhost:3000/api/orders',{
+      // const response = await axios.get('http://localhost:3000/api/orders',{
+      const response = await axios.get('https://pos-be-pham-5c635ce0026f.herokuapp.com/api/orders',{
         headers: {
           Authorization: `Bearer ${token}`
         }

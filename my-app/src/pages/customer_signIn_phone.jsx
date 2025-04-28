@@ -21,7 +21,8 @@ const NumberKeyboardPage = () => {
     const unknownPhone = "unknown";
 
     try {
-      const res = await axios.post('http://localhost:3000/api/customerphonecheck/unknown-customers', {
+      // const res = await axios.post('http://localhost:3000/api/customerphonecheck/unknown-customers', {
+      const res = await axios.post('https://pos-be-pham-5c635ce0026f.herokuapp.com/api/customerphonecheck/unknown-customers', {
         name: unknownName,
         phone: unknownPhone,
         totalAmount: 0
@@ -47,7 +48,9 @@ const NumberKeyboardPage = () => {
   const handleOk = async () => {
     if (phoneNumber.length === 10) {
           try{
-            const res = await axios.get(`http://localhost:3000/api/customerphonecheck`, {
+            // const res = await axios.get(`http://localhost:3000/api/customerphonecheck`, {
+            const res = await axios.get(`https://pos-be-pham-5c635ce0026f.herokuapp.com/api/customerphonecheck`, {
+              
             params: { phone: phoneNumber }
           });
 
@@ -56,7 +59,8 @@ const NumberKeyboardPage = () => {
           if (data.found) {
 
             // Create new order in DB
-        const orderRes = await axios.post(`http://localhost:3000/api/orders/neworder-oldcustomer`, {
+        // const orderRes = await axios.post(`http://localhost:3000/api/orders/neworder-oldcustomer`, {
+        const orderRes = await axios.post(`https://pos-be-pham-5c635ce0026f.herokuapp.com/api/orders/neworder-oldcustomer`, {
           phone: phoneNumber,      
           totalAmount: 0           
         });
